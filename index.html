@@ -74,6 +74,7 @@
           this.canvas = this.$refs.canvas
           this.canvas.getContext('2d').drawImage(this.video, 0, 0, 500, 500)
           this.captures.push(this.canvas.toDataURL('image/png'))
+          //この中にデータが格納されるためAPI GatewayへPOSTする
           console.log(this.canvas.toDataURL())
           // console.log(this.captures)
         },
