@@ -39,24 +39,6 @@
   <script src="https://unpkg.com/vue/dist/vue.js"></script>
   <script src="https://unpkg.com/element-ui/lib/index.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  <!-- <script>
-    function toBlob(base64) {
-    var bin = atob(base64.replace(/^.*,/, ''));
-    var buffer = new Uint8Array(bin.length);
-    for (var i = 0; i < bin.length; i++) {
-        buffer[i] = bin.charCodeAt(i);
-    }
-    // Blobを作成
-    try{
-        var blob = new Blob([buffer.buffer], {
-            type: 'image/png'
-        });
-    }catch (e){
-        return false;
-    }
-    return blob;
-  }
-  </script> -->
   <script>
     new Vue({
       el: '#app',
@@ -104,7 +86,7 @@
           // console.log(this.captures)
           // Blob形式なら直接Slackに送れるのではないかという思惑が絶たれた
           // files=toBlob(im_url) 
-          console.log(files)
+          // console.log(files)
           // param={'token':'mtrGvyQxyNk04YstSCDI2dRc', 'channels':"DKUEB6VEV"}
           // axios.post(url="https://slack.com/api/files.upload",params=param, files=files)
           axios.post('https://hooks.slack.com/services/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', {text: m.slack + " さんにお客様です。", attachments:[{image_url:m.avatar,title:"お客様です。"}]});
