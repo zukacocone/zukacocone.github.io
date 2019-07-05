@@ -22,23 +22,22 @@
         </el-card>
       </li>
     </ul>
-
-    <video ref="video" id="video" width="500" height="500" autoplay></video>
-    <div>
-    <button color="info" id="snap" v-on:click="capture()">Snap Photo</button>
-    </div>
-    <canvas ref="canvas" id="canvas" width="500" height="500"></canvas>
-    <ul>
-    <li class="capture" v-for="c in captures" v-bind:key="c.d">
-    <img v-bind:src="c" height="50" />
-    </li>
-    </ul>
   </div>
-
+  <video ref="video" id="video" width="500" height="500" autoplay></video>
+  <div>
+  <button color="info" id="snap" v-on:click="capture()">Snap Photo</button>
+  </div>
+  <canvas ref="canvas" id="canvas" width="500" height="500"></canvas>
+  <ul>
+  <li class="capture" v-for="c in captures" v-bind:key="c.d">
+  <img v-bind:src="c" height="50" />
+  </li>
+  </ul>
 </body>
   <script src="https://unpkg.com/vue/dist/vue.js"></script>
   <script src="https://unpkg.com/element-ui/lib/index.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  
   <script>
     new Vue({
       el: '#app',
