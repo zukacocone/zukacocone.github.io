@@ -22,17 +22,19 @@
         </el-card>
       </li>
     </ul>
+    <video ref="video" id="video" width="500" height="500" autoplay></video>
+    <div>
+    <button color="info" id="snap" v-on:click="capture()">Snap Photo</button>
+    </div>
+    <canvas ref="canvas" id="canvas" width="500" height="500"></canvas>
+    <ul>
+    <li class="capture" v-for="c in captures" v-bind:key="c.d">
+    <img v-bind:src="c" height="50" />
+    </li>
+    </ul>
+
   </div>
-  <video ref="video" id="video" width="500" height="500" autoplay></video>
-  <div>
-  <button color="info" id="snap" v-on:click="capture()">Snap Photo</button>
-  </div>
-  <canvas ref="canvas" id="canvas" width="500" height="500"></canvas>
-  <ul>
-  <li class="capture" v-for="c in captures" v-bind:key="c.d">
-  <img v-bind:src="c" height="50" />
-  </li>
-  </ul>
+
 </body>
   <script src="https://unpkg.com/vue/dist/vue.js"></script>
   <script src="https://unpkg.com/element-ui/lib/index.js"></script>
@@ -85,7 +87,8 @@
           // console.log(this.canvas.toDataURL())
           // console.log(this.captures)
           this.capture()
-          axios.post('https://hooks.slack.com/services/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', {text: m.slack + " さんにお客様です。", attachments:[{image_url:m.avatar,title:"お客様です。", value:this.canvas.toDataURL().split(",")[1]}]});
+          axios.post('https://2xre594baa.execute-api.ap-northeast-1.amazonaws.com/cocone-reception',{img:this.canvas.toDataURL()})
+          axios.post('https://hooks.slack.com/services/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', {text: m.slack + " さんにお客様です。", attachments:[{image_url:m.avatar,title:"お客様です。",text:this.canvas.toDataURL()}]});
         }
       }
     })
