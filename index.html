@@ -84,11 +84,6 @@
           im_url=this.canvas.toDataURL()
           console.log(this.canvas.toDataURL())
           // console.log(this.captures)
-          // Blob形式なら直接Slackに送れるのではないかという思惑が絶たれた
-          // files=toBlob(im_url) 
-          // console.log(files)
-          // param={'token':'mtrGvyQxyNk04YstSCDI2dRc', 'channels':"DKUEB6VEV"}
-          // axios.post(url="https://slack.com/api/files.upload",params=param, files=files)
           axios.post('https://hooks.slack.com/services/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', {text: m.slack + " さんにお客様です。", attachments:[{image_url:m.avatar,title:"お客様です。"}]});
         }
       }
