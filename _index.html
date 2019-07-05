@@ -1,93 +1,48 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="PWA Reception">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-</head>
-<body style="margin: 0; padding: 0;">
-  <div id="app">
-    <ul style="display: flex; flex-wrap: wrap; list-style: none; margin: 0; padding: 0;">
-      <li v-for="m in members" style="width: 25%;">
-        <el-card shadow="always" style="margin: 1rem" :body-style="{ padding: '0px' }">
-          <img :src="m.avatar" style="width: 100%" alt="">
-          <div style="padding: 1rem">
-            {{ m.name }}
-          </div>
-          <div style="padding: 1rem">
-            <el-button type="primary" style="width: 100%" @click="call(m)">呼び出し</el-button>
-          </div>
-        </el-card>
-      </li>
-    </ul>
-
-    <video ref="video" id="video" width="500" height="500" autoplay></video>
-    <div>
-    <button color="info" id="snap" v-on:click="capture()">Snap Photo</button>
-    </div>
-    <canvas ref="canvas" id="canvas" width="500" height="500"></canvas>
-    <!-- <ul>
-    <li class="capture" v-for="c in captures" v-bind:key="c.d">
-    <img v-bind:src="c" height="50" />
-    </li>
-    </ul> -->
-  </div>
-
-</body>
-  <script src="https://unpkg.com/vue/dist/vue.js"></script>
-  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  <script>
-    new Vue({
-      el: '#app',
-      data: function() {
-        return {
-          // 実際には社員マスタを参照するようにします
-          //LDAPからインポートする。
-          "members": [
-            {"name": "山田太郎", "slack": "@taro", "avatar": "https://placekitten.com/300/200"},
-            {"name": "山田二郎", "slack": "@jiro", "avatar": "https://placekitten.com/301/200"},
-            {"name": "山田三郎", "slack": "@saburo", "avatar": "https://placekitten.com/302/200"},
-            {"name": "山田四郎", "slack": "@shiro", "avatar": "https://placekitten.com/303/200"},
-            {"name": "山田五郎", "slack": "@goro", "avatar": "https://placekitten.com/304/200"},
-            {"name": "山田六郎", "slack": "@rokuro", "avatar": "https://placekitten.com/305/200"},
-            {"name": "山田七郎", "slack": "@shichiro", "avatar": "https://placekitten.com/306/200"},
-            {"name": "山田八郎", "slack": "@hachiro", "avatar": "https://placekitten.com/307/200"},
-          ],
-          canvas:{},
-          captures:[]
-        }
-      },
-      mounted () {
-        this.video = this.$refs.video
-        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-          navigator.mediaDevices.getUserMedia({ video: true, audio:false}).then(stream => {
-            this.video.srcObject = stream
-            this.video.play()
-          })
-        }
-      },
-      methods: {
-        // capture () {
-        //   this.canvas = this.$refs.canvas
-        //   this.canvas.getContext('2d').drawImage(this.video, 0, 0, 500, 500)
-        //   this.captures.push(this.canvas.toDataURL('image/png'))
-        //   console.log(this.canvas.toDataURL())
-        //   // console.log(this.captures)
-        // },
-        call: function(m) {
-          this.canvas = this.$refs.canvas
-          this.canvas.getContext('2d').drawImage(this.video, 0, 0, 500, 500)
-          this.captures.push(this.canvas.toDataURL('image/png'))
-          im_url=this.canvas.toDataURL()
-          console.log(this.canvas.toDataURL())
-          // console.log(this.captures)
-          axios.post('https://hooks.slack.com/services/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', {text: m.slack + " さんにお客様です。", attachments:[{image_url:m.avatar,title:"お客様です。"}]});
-        }
+  <meta charset="UTF-8" />
+  <title>Video</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
+  <link rel="stylesheet" href="index.css" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <style>
+      body {
+        margin: 0;
+        background: #ffffff;
       }
-    })
-  </script>
 
+      #video {
+        display: block;
+        position: absolute;
+        top: 10px; left: 10px;
+        transform-origin: left top;
+      }
+  </style>
+</head>
+<body>
+  <video id="video" autoplay playsinline></video>
+  <script src="index.js"></script>
+  <canvas id="canvas"></canvas>
+</body>
+
+<script>
+const medias = {
+  audio : false,
+  video : true
+};
+const video = document.getElementById("video");
+const promise = navigator.mediaDevices.getUserMedia(medias);
+
+promise.then(successCallback)
+       .then(errorCallback);
+
+function successCallback(stream) {
+  video.srcObject = stream;
+};
+
+function errorCallback(err) {
+  alert(err);
+};
+</script>
 </html>
